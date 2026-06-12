@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GridGuard AI Dashboard</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Leaflet Map CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet/dist/leaflet.css"
+    />
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>⚡ GridGuard AI</h1>
+        <p>Intelligent Cable Theft Detection & Infrastructure Protection Platform</p>
+    </header>
+
+    <!-- Status Dashboard -->
+    <div class="dashboard">
+
+        <div class="card">
+            <h2>Transformer Status</h2>
+            <div id="transformerStatus" class="status normal">
+                ONLINE
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>CTM001 Continuity Loop</h2>
+            <div id="loopStatus" class="status normal">
+                INTACT
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Household Endpoint A</h2>
+            <div id="houseA" class="status normal">
+                POWERED
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Household Endpoint B</h2>
+            <div id="houseB" class="status normal">
+                POWERED
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="main-grid">
+
+        <!-- Map -->
+        <div class="card">
+            <h2>📍 Grid Monitoring Map</h2>
+            <div id="map"></div>
+        </div>
+
+        <!-- AI Intelligence Panel -->
+        <div class="card intelligence-panel">
+
+            <h2>🤖 Incident Intelligence</h2>
+
+            <p id="riskScore">
+                Risk Score: 12%
+            </p>
+
+            <p id="affectedHomes">
+                Affected Homes: 0
+            </p>
+
+            <p id="estimatedLoss">
+                Estimated Loss: R0
+            </p>
+
+            <p id="eta">
+                Response ETA: --
+            </p>
+
+            <hr>
+
+            <h3>System Health</h3>
+
+            <p>
+                Transformer: Healthy
+            </p>
+
+            <p>
+                Cable Network: Stable
+            </p>
+
+            <p>
+                Endpoint Status: Online
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="controls">
+
+        <button onclick="simulateTheft()">
+            🚨 Simulate Cable Theft
+        </button>
+
+        <button onclick="restoreSystem()">
+            ✅ Restore System
+        </button>
+
+    </div>
+
+    <!-- AI Classification -->
+    <div class="ai-panel">
+
+        <h2>AI Classification Engine</h2>
+
+        <div id="classification">
+            Monitoring...
+        </div>
+
+    </div>
+
+    <!-- Alert Section -->
+    <div class="alert-box" id="alertBox">
+
+        No active incidents
+
+    </div>
+
+    <!-- Timeline -->
+    <div class="logs">
+
+        <h2>📋 Incident Timeline</h2>
+
+        <ul id="logs"></ul>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            GridGuard AI • Hackathon Prototype • Real-Time Cable Theft Detection
+        </p>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- App JS -->
+    <script src="script.js"></script>
+
+</body>
+</html>
