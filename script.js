@@ -1,3 +1,11 @@
+let currentIncident = {
+    active: false,
+    type: "None",
+    confidence: 0,
+    homesAffected: 0,
+    location: "None"
+};
+
 // =======================================
 // GridGuard AI - Municipal Control Center
 // =======================================
@@ -164,6 +172,13 @@ function movePatrolVehicle() {
 // =======================================
 
 function simulateTheft() {
+    currentIncident = {
+        active: true,
+        type: "Cable Theft",
+        confidence: 97,
+        homesAffected: 2,
+        location: "Distribution Corridor T2"
+    };
 
     document.getElementById("loopStatus").textContent =
         "BROKEN";
@@ -194,9 +209,6 @@ function simulateTheft() {
     document.getElementById("affectedHomes").innerHTML =
         "Affected Homes: 2";
 
-    document.getElementById("estimatedLoss").innerHTML =
-        "Estimated Loss: R42 000";
-
     document.getElementById("eta").innerHTML =
         "Response ETA: 6 Minutes";
 
@@ -214,8 +226,6 @@ function simulateTheft() {
         <p><strong>Zone:</strong> Distribution Corridor T2</p>
 
         <p><strong>Affected Homes:</strong> 2</p>
-
-        <p><strong>Estimated Loss:</strong> R42 000</p>
 
         <p><strong>Response:</strong> Team Dispatched</p>
         `;
@@ -263,6 +273,13 @@ function simulateTheft() {
 // =======================================
 
 function restoreSystem() {
+    currentIncident = {
+        active: false,
+        type: "None",
+        confidence: 0,
+        homesAffected: 0,
+        location: "None"
+    };
 
     document.getElementById("loopStatus").textContent =
         "INTACT";
@@ -290,9 +307,6 @@ function restoreSystem() {
 
     document.getElementById("affectedHomes").innerHTML =
         "Affected Homes: 0";
-
-    document.getElementById("estimatedLoss").innerHTML =
-        "Estimated Loss: R0";
 
     document.getElementById("eta").innerHTML =
         "Response ETA: --";
@@ -347,3 +361,104 @@ addLog("Transformer T2 Connected.");
 addLog("10 Household Endpoints Online.");
 addLog("CTM001 Monitoring Active.");
 addLog("Municipal Control Center Ready.");
+
+function sendMessage() {
+
+    const input =
+        document.getElementById("userInput");
+
+    const message =
+        input.value.trim();
+
+    if(!message) return;
+
+    const chat =
+        document.getElementById("chatMessages");
+
+    chat.innerHTML += `
+        <div class="user-message">
+            ${message}
+        </div>
+    `;
+
+    const question =
+        message.toLowerCase();
+
+    let response =
+        "System operating normally.";
+
+    if(question.includes("status")){
+
+        if(currentIncident.active){
+
+            response =
+            `Current Incident: ${currentIncident.type}.
+            Confidence: ${currentIncident.confidence}%.
+            Location: ${currentIncident.location}.`;
+
+        }else{
+
+            response =
+            "All transformers and household endpoints are operating normally.";
+
+        }
+
+    }
+
+    else if(question.includes("theft")){
+
+        if(currentIncident.active){
+
+            response =
+            `Cable theft has been detected near ${currentIncident.location}. ${currentIncident.homesAffected} households are affected.`;
+
+        }else{
+
+            response =
+            "No active cable theft incidents have been detected.";
+
+        }
+
+    }
+
+    else if(question.includes("risk")){
+
+        response =
+        "Current network risk score is 12%. No critical threats detected.";
+
+    }
+
+    else if(question.includes("response")){
+
+        if(currentIncident.active){
+
+            response =
+            "Municipal response team has been dispatched. Estimated arrival time is 6 minutes.";
+
+        }else{
+
+            response =
+            "No response teams currently deployed.";
+
+        }
+
+    }
+
+    else if(question.includes("ctm001")){
+
+        response =
+        "CTM001 continuity monitoring is active and monitoring cable integrity.";
+
+    }
+
+    chat.innerHTML += `
+        <div class="bot-message">
+            ${response}
+        </div>
+    `;
+
+    input.value = "";
+
+    chat.scrollTop =
+        chat.scrollHeight;
+}
