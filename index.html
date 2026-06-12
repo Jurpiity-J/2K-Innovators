@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>GridGuard AI Dashboard</title>
+    <title>Hybrid Smart-Grid Monitoring Network Dashboard</title>
 
     <link rel="stylesheet" href="styles.css">
 
@@ -19,7 +19,7 @@
 
     <!-- Header -->
     <header>
-        <h1>⚡ GridGuard AI</h1>
+        <h1>⚡ Hybrid Smart-Grid Monitoring Network</h1>
         <p>Intelligent Cable Theft Detection & Infrastructure Protection Platform</p>
     </header>
 
@@ -76,10 +76,6 @@
 
             <p id="affectedHomes">
                 Affected Homes: 0
-            </p>
-
-            <p id="estimatedLoss">
-                Estimated Loss: R0
             </p>
 
             <p id="eta">
@@ -146,10 +142,38 @@
 
     </div>
 
+    <div class="card chatbot-panel">
+
+    <h2>🤖 GridGuard Copilot</h2>
+
+    <div id="chatMessages" class="chat-messages">
+
+        <div class="bot-message">
+            Hello. I can answer questions about outages, theft incidents and system status.
+        </div>
+
+    </div>
+
+    <div class="chat-input-area">
+
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Ask GridGuard Copilot..."
+        >
+
+        <button onclick="sendMessage()">
+            Send
+        </button>
+
+    </div>
+
+</div>
+
     <!-- Footer -->
     <footer>
         <p>
-            GridGuard AI • Hackathon Prototype • Real-Time Cable Theft Detection
+            Hybrid Smart-Grid Monitoring Network • Hackathon Prototype • Real-Time Cable Theft Detection
         </p>
     </footer>
 
