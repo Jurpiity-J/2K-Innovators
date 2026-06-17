@@ -10,6 +10,13 @@ let currentIncident = {
 // GridGuard AI - Municipal Control Center
 // =======================================
 
+const SCADA = {
+    systemHealth: "NORMAL", // NORMAL | WARNING | CRITICAL
+    powerLoad: 42,
+    gridStability: 98,
+    alarms: []
+};
+
 const logs = document.getElementById("logs");
 
 function addLog(message) {
@@ -172,6 +179,7 @@ function movePatrolVehicle() {
 // =======================================
 
 function simulateTheft() {
+    updateSCADAState("CRITICAL");
     currentIncident = {
         active: true,
         type: "Cable Theft",
@@ -267,6 +275,44 @@ function simulateTheft() {
     addLog("🚓 Response team dispatched.");
     addLog("🤖 AI classified incident with 97% confidence.");
 }
+
+function updateSCADAState(state) {
+
+    const body = document.body;
+
+    body.classList.remove("alarm-critical", "alarm-warning");
+
+    SCADA.systemHealth = state;
+
+    if (state === "CRITICAL") {
+        body.classList.add("alarm-critical");
+    }
+
+    if (state === "WARNING") {
+        body.classList.add("alarm-warning");
+    }
+}
+
+function animatePowerFlow(line) {
+
+    let i = 0;
+
+    const interval = setInterval(() => {
+        i = (i + 1) % 100;
+
+        line.setStyle({
+            color: i > 85 ? "#ff3b3b" : "#00ff9d",
+            weight: i > 85 ? 6 : 3,
+            opacity: i > 85 ? 1 : 0.7
+        });
+
+    }, 200);
+
+    return interval; // important for SCADA control later
+}
+utilityLines.forEach(line => {
+    animatePowerFlow(line);
+});
 
 // =======================================
 // RESTORE SYSTEM

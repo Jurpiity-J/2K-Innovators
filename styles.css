@@ -1,168 +1,330 @@
-/* ============================= */
-/* GRIDGUARD CONTROL CENTER UI   */
-/* ============================= */
+
+/* =========================
+   BASE SCADA THEME
+========================= */
 
 body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background: #0a0f1f;
-    color: #e6f1ff;
+    background: #05070c;
+    color: #d6e2f0;
 }
 
-/* ============================= */
-/* TOP BAR / HEADER              */
-/* ============================= */
+/* grid overlay like real SCADA systems */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0,255,180,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,180,0.04) 1px, transparent 1px);
+    background-size: 45px 45px;
+    pointer-events: none;
+}
+
+/* =========================
+   HEADER (CONTROL ROOM BAR)
+========================= */
 
 header {
-    background: #0f172a;
-    padding: 15px 20px;
-    border-bottom: 1px solid #1e2a44;
-    box-shadow: 0 0 20px rgba(0, 255, 200, 0.05);
+    background: #0a0f18;
+    border-bottom: 1px solid #1b2a3a;
+    padding: 12px 18px;
 }
 
 header h1 {
     margin: 0;
-    font-size: 20px;
-    color: #00ffd5;
-    letter-spacing: 1px;
+    font-size: 16px;
+    color: #00ffbf;
+    letter-spacing: 2px;
 }
 
-/* ============================= */
-/* MAIN LAYOUT                   */
-/* ============================= */
+header p {
+    margin: 5px 0 0 0;
+    font-size: 12px;
+    color: #7f8ea3;
+}
+
+/* =========================
+   DASHBOARD CARDS (TOP ROW)
+========================= */
 
 .dashboard {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 15px;
-    padding: 15px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
 }
 
-/* ============================= */
-/* MAP PANEL                     */
-/* ============================= */
-
-#map {
-    height: 600px;
-    border-radius: 12px;
-    border: 1px solid #1e2a44;
-    box-shadow: 0 0 25px rgba(0, 255, 213, 0.08);
+.card {
+    background: #0a0f18;
+    border: 1px solid #1b2a3a;
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
 }
 
-/* ============================= */
-/* SIDE PANELS                   */
-/* ============================= */
-
-.panel {
-    background: #0f172a;
-    border: 1px solid #1e2a44;
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+.card h2 {
+    font-size: 12px;
+    margin: 0 0 8px 0;
+    color: #00ffbf;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* ============================= */
-/* STATUS BADGES                 */
-/* ============================= */
+/* =========================
+   STATUS INDICATORS
+========================= */
 
 .status {
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-weight: bold;
     display: inline-block;
-    font-size: 12px;
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    font-weight: bold;
 }
 
 .status.normal {
-    background: rgba(0, 255, 120, 0.1);
-    color: #00ff88;
-    border: 1px solid #00ff88;
+    color: #00ff9d;
+    border: 1px solid #00ff9d;
+    background: rgba(0,255,157,0.08);
 }
 
 .status.critical {
-    background: rgba(255, 0, 80, 0.15);
-    color: #ff4d6d;
-    border: 1px solid #ff4d6d;
+    color: #ff3b3b;
+    border: 1px solid #ff3b3b;
+    background: rgba(255,59,59,0.08);
 }
 
-/* ============================= */
-/* ALERT BOX                    */
-/* ============================= */
+/* =========================
+   MAIN GRID (MAP + AI PANEL)
+========================= */
 
-#alertBox {
-    background: #0f172a;
-    border: 1px solid #1e2a44;
-    padding: 15px;
-    border-radius: 10px;
-    transition: 0.3s;
+.main-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 10px;
+    padding: 10px;
+    height: 520px;
 }
 
-#alertBox.alert-active {
-    border: 1px solid #ff4d6d;
-    box-shadow: 0 0 20px rgba(255, 77, 109, 0.2);
+#map {
+    height: 100%;
+    border-radius: 6px;
+    border: 1px solid #1b2a3a;
 }
 
-/* ============================= */
-/* BUTTONS                      */
-/* ============================= */
+/* =========================
+   AI PANEL
+========================= */
+
+.intelligence-panel p {
+    margin: 6px 0;
+    font-size: 12px;
+    color: #c9d4e3;
+}
+
+/* =========================
+   CONTROL BUTTONS
+========================= */
+
+.controls {
+    padding: 10px;
+}
 
 button {
-    background: #00ffd5;
-    color: #001018;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 8px;
+    background: transparent;
+    border: 1px solid #00ffbf;
+    color: #00ffbf;
+    padding: 8px 10px;
+    font-size: 12px;
     cursor: pointer;
-    font-weight: bold;
-    margin: 5px;
+    margin-right: 5px;
+    border-radius: 4px;
+    text-transform: uppercase;
     transition: 0.2s;
 }
 
 button:hover {
-    background: #00c9a7;
-    transform: translateY(-1px);
+    background: rgba(0,255,191,0.1);
+    box-shadow: 0 0 10px rgba(0,255,191,0.3);
 }
 
-/* ============================= */
-/* CHAT SYSTEM                  */
-/* ============================= */
+/* =========================
+   CLASSIFICATION PANEL
+========================= */
 
-#chatMessages {
-    height: 200px;
-    overflow-y: auto;
-    background: #0a0f1f;
-    border: 1px solid #1e2a44;
+.ai-panel {
+    margin: 10px;
     padding: 10px;
-    border-radius: 10px;
+    background: #0a0f18;
+    border: 1px solid #1b2a3a;
+    border-radius: 6px;
 }
 
-.user-message {
-    text-align: right;
-    color: #00ffd5;
-    margin: 5px 0;
+#classification {
+    font-size: 12px;
+    color: #c9d4e3;
 }
 
-.bot-message {
-    text-align: left;
-    color: #e6f1ff;
-    margin: 5px 0;
+/* =========================
+   ALERT SYSTEM
+========================= */
+
+.alert-box {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #1b2a3a;
+    background: #0a0f18;
+    font-size: 12px;
 }
 
-/* ============================= */
-/* LOGS                         */
-/* ============================= */
+.alert-box.alert-active {
+    border-color: #ff3b3b;
+    box-shadow: 0 0 15px rgba(255,59,59,0.3);
+}
+
+/* =========================
+   LOGS (TIMELINE)
+========================= */
+
+.logs {
+    margin: 10px;
+    padding: 10px;
+    background: #0a0f18;
+    border: 1px solid #1b2a3a;
+    border-radius: 6px;
+}
 
 #logs {
     list-style: none;
     padding: 0;
-    max-height: 200px;
-    overflow-y: auto;
+    font-size: 11px;
 }
 
 #logs li {
+    padding: 4px;
+    border-bottom: 1px solid #162233;
+    color: #7f8ea3;
+}
+
+/* =========================
+   CHAT PANEL (SCADA COPILOT)
+========================= */
+
+.chatbot-panel {
+    margin: 10px;
+    padding: 10px;
+    background: #0a0f18;
+    border: 1px solid #1b2a3a;
+    border-radius: 6px;
+}
+
+.chat-messages {
+    height: 160px;
+    overflow-y: auto;
+    background: #05070c;
+    border: 1px solid #1b2a3a;
+    padding: 8px;
     font-size: 12px;
-    padding: 5px;
-    border-bottom: 1px solid #1e2a44;
-    color: #9aa4b2;
+}
+
+.user-message {
+    text-align: right;
+    color: #00ffbf;
+    margin: 4px 0;
+}
+
+.bot-message {
+    text-align: left;
+    color: #c9d4e3;
+    margin: 4px 0;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    font-size: 11px;
+    padding: 10px;
+    color: #6b7a8c;
+    border-top: 1px solid #1b2a3a;
+    margin-top: 10px;
+}
+
+/* =========================
+   REAL SCADA MOTION LAYER
+========================= */
+
+/* subtle system heartbeat (entire UI) */
+@keyframes systemPulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(0.97); }
+    100% { filter: brightness(1); }
+}
+
+body {
+    animation: systemPulse 6s infinite;
+}
+
+/* =========================
+   CRITICAL ALARM BLINK
+========================= */
+
+@keyframes alarmFlash {
+    0% { background: rgba(255,0,0,0.08); }
+    50% { background: rgba(255,0,0,0.25); }
+    100% { background: rgba(255,0,0,0.08); }
+}
+
+.alarm-critical {
+    animation: alarmFlash 1s infinite;
+}
+
+/* =========================
+   WARNING STATE
+========================= */
+
+@keyframes warningPulse {
+    0% { border-color: #ffcc00; }
+    50% { border-color: rgba(255,204,0,0.3); }
+    100% { border-color: #ffcc00; }
+}
+
+.alarm-warning {
+    animation: warningPulse 2s infinite;
+}
+
+/* =========================
+   LIVE DATA “SCROLLING FEEL”
+========================= */
+
+#logs li {
+    opacity: 0;
+    transform: translateY(-5px);
+    animation: logIn 0.3s forwards;
+}
+
+@keyframes logIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   POWER FLOW ANIMATION
+========================= */
+
+.leaflet-overlay-pane svg path {
+    stroke-dasharray: 8;
+    animation: flow 2s linear infinite;
+}
+
+@keyframes flow {
+    to {
+        stroke-dashoffset: -16;
+    }
 }
