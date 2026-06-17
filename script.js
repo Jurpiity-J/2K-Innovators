@@ -17,7 +17,82 @@ const SCADA = {
     alarms: []
 };
 
+// =======================================
+// GRID MODEL (Global State)
+// =======================================
+
+const grid = {
+    transformers: [
+        {
+            id: "T1",
+            capacityKW: 500,
+            currentLoadKW: 0,
+            status: "ONLINE"
+        },
+        {
+            id: "T2",
+            capacityKW: 500,
+            currentLoadKW: 0,
+            status: "ONLINE"
+        }
+    ],
+    households: []
+};
+
 const logs = document.getElementById("logs");
+
+function calculateTransformerLoads() {
+
+    grid.transformers.forEach(transformer => {
+
+        transformer.currentLoadKW = houses
+            .filter(
+                h =>
+                    h.transformer === transformer.id &&
+                    h.powered
+            )
+            .reduce(
+                (sum, h) => sum + h.demandKW,
+                0
+            );
+
+    });
+
+}
+setInterval(() => {
+    calculateTransformerLoads();
+    checkOverloads();
+}, 1000);
+
+function checkOverloads() {
+
+    grid.transformers.forEach(transformer => {
+
+        const utilization =
+            transformer.currentLoadKW /
+            transformer.capacityKW;
+
+        if (utilization > 0.9) {
+
+            addLog(
+                `⚠ ${transformer.id} nearing overload`
+            );
+
+        }
+
+        if (utilization > 1) {
+
+            transformer.status = "FAULT";
+
+            addLog(
+                `🚨 ${transformer.id} overloaded`
+            );
+
+        }
+
+    });
+
+}
 
 function addLog(message) {
     const li = document.createElement("li");
@@ -66,17 +141,17 @@ const transformer2 = L.marker(
 // =======================================
 
 const houses = [
-    { name: "House 1", coords: [-23.9052, 29.4695] },
-    { name: "House 2", coords: [-23.9060, 29.4705] },
-    { name: "House 3", coords: [-23.9040, 29.4710] },
-    { name: "House 4", coords: [-23.9030, 29.4690] },
-    { name: "House 5", coords: [-23.9025, 29.4720] },
+    { name: "House 1", coords: [-23.9052, 29.4695], demandKW: 8, powered: true, transformer: "T1" },
+    { name: "House 2", coords: [-23.9060, 29.4705], demandKW: 12, powered: true, transformer: "T1" },
+    { name: "House 3", coords: [-23.9040, 29.4710], demandKW: 16, powered: true, transformer: "T1" },
+    { name: "House 4", coords: [-23.9030, 29.4690], demandKW: 14, powered: true, transformer: "T1" },
+    { name: "House 5", coords: [-23.9025, 29.4720], demandKW: 9, powered: true, transformer: "T1" },
 
-    { name: "House 6", coords: [-23.9085, 29.4735] },
-    { name: "House 7", coords: [-23.9090, 29.4745] },
-    { name: "House 8", coords: [-23.9100, 29.4755] },
-    { name: "House 9", coords: [-23.9070, 29.4760] },
-    { name: "House 10", coords: [-23.9065, 29.4740] }
+    { name: "House 6", coords: [-23.9085, 29.4735], demandKW: 8, powered: true, transformer: "T2" },
+    { name: "House 7", coords: [-23.9090, 29.4745], demandKW: 8, powered: true, transformer: "T2" },
+    { name: "House 8", coords: [-23.9100, 29.4755], demandKW: 8, powered: true, transformer: "T2" },
+    { name: "House 9", coords: [-23.9070, 29.4760], demandKW: 8, powered: true, transformer: "T2" },
+    { name: "House 10", coords: [-23.9065, 29.4740], demandKW: 8, powered: true, transformer: "T2" }
 ];
 
 const houseMarkers = [];
@@ -180,6 +255,14 @@ function movePatrolVehicle() {
 
 function simulateTheft() {
     updateSCADAState("CRITICAL");
+    
+    // Disconnect affected houses from power
+    houses[7].powered = false;  // House 8
+    houses[8].powered = false;  // House 9
+    
+    // Recalculate loads with disconnected houses
+    calculateTransformerLoads();
+    
     currentIncident = {
         active: true,
         type: "Cable Theft",
@@ -319,6 +402,13 @@ utilityLines.forEach(line => {
 // =======================================
 
 function restoreSystem() {
+    // Restore power to affected houses
+    houses[7].powered = true;   // House 8
+    houses[8].powered = true;   // House 9
+    
+    // Recalculate loads with restored houses
+    calculateTransformerLoads();
+    
     currentIncident = {
         active: false,
         type: "None",
