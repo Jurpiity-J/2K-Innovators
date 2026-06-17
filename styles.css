@@ -1,3 +1,6 @@
+body {
+    background: red !important;
+}
 let currentIncident = {
     active: false,
     type: "None",
